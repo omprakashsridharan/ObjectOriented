@@ -109,7 +109,6 @@ public class Polynomial {
 			tmp = multiplyConstant(tmp, entry.getValue());
 
 			ans.add(tmp);
-
 		}
 		return ans;
 
