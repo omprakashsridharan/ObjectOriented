@@ -5,7 +5,5 @@ public class Solution {
 
         Polynomial p2 = new Polynomial("1x^1-3x^0");
         p1.divide(p2);
-        
-
     }
 }

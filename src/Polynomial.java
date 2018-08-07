@@ -23,6 +23,7 @@ public class Polynomial {
         String processedPolynomial = polynomial.replace("-","+-");
         String[] elements = processedPolynomial.split("\\+");
         for(String element : elements){
+        	if(element.equals("")) continue;
             int power;
             float coefficient;
             String[] parts = element.split("\\^");
@@ -93,10 +94,11 @@ public class Polynomial {
 			if(this.treeMap.get(key)<0)
 				polynomialString+=(this.treeMap.get(key)+variableString);
 		}
-		if(polynomialString=="")
-			return "0";
-		if(polynomialString.charAt(0)=='+'){
+
+		if(polynomialString != "" && polynomialString.charAt(0)=='+'){
 			return polynomialString.substring(1,polynomialString.length());
+		}else if( this.treeMap.size() == 1 && this.treeMap.get(1) == 0 ){
+			return "0";
 		}
 		return polynomialString;
 		
@@ -117,14 +119,16 @@ public class Polynomial {
 		return p;
     }
 
-	 public static Polynomial multiplyVariable(Polynomial p) {
+	 public static Polynomial multiplyVariable(Polynomial p, int power) {
 		Polynomial ans = new Polynomial();
+
 		for(Map.Entry<Integer, Float> entry: p.treeMap.entrySet()) {
-			ans.treeMap.put(entry.getKey() + 1, entry.getValue());
+			ans.treeMap.put(entry.getKey() + power, entry.getValue());
 		}
 		return ans;
 
 	}
+
 
 	public static Polynomial multiply(Polynomial p1, Polynomial p2) {
 		Polynomial ans = new Polynomial();
@@ -135,7 +139,7 @@ public class Polynomial {
 			Polynomial tmp = p2;
 
 			if(entry.getKey() > 0)
-				tmp = multiplyVariable(tmp);
+				tmp = multiplyVariable(tmp, entry.getKey());
 			tmp = multiplyConstant(tmp, entry.getValue());
 
 			ans.add(tmp);
