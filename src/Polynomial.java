@@ -1,8 +1,13 @@
 import java.util.Collections;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Polynomial {
 	private TreeMap<Integer,Integer> treeMap;
+
+	Polynomial(){
+		treeMap = new TreeMap<>();
+	}
 
     public TreeMap<Integer, Integer> getTreeMap() {
         return treeMap;
@@ -67,7 +72,48 @@ public class Polynomial {
 		return polynomialString;
 		
 	}
-	public static void main(String args[]){
-		
+
+
+	 Polynomial initPolynomialCoeff(Polynomial p) {
+		for(int i = 0; i < 20; i++) {
+			p.treeMap.put(i, 0);
+		}
+		return p;
 	}
+	 Polynomial multiplyConstant(Polynomial p, int constant) {
+		for(Map.Entry<Integer, Integer> entry: p.treeMap.entrySet()) {
+			entry.setValue(entry.getValue()*constant);
+		}
+		return p;
+	 }
+
+	 Polynomial multiplyVariable(Polynomial p) {
+		Polynomial ans = new Polynomial();
+		for(Map.Entry<Integer, Integer> entry: p.treeMap.entrySet()) {
+			ans.treeMap.put(entry.getKey() + 1, entry.getValue());
+		}
+		return ans;
+
+	}
+
+	public  Polynomial multiply(Polynomial p1, Polynomial p2) {
+		Polynomial ans = new Polynomial();
+		ans = initPolynomialCoeff(ans);
+
+		for(Map.Entry<Integer, Integer> entry: p1.treeMap.entrySet()) {
+
+			Polynomial tmp = p2;
+
+			if(entry.getKey() > 0)
+				tmp = multiplyVariable(tmp);
+			tmp = multiplyConstant(tmp, entry.getValue());
+
+			ans.add(tmp);
+
+		}
+		return ans;
+
+	}
+
 }
+
