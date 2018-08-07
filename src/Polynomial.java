@@ -74,20 +74,20 @@ public class Polynomial {
 	}
 
 
-	 Polynomial initPolynomialCoeff(Polynomial p) {
+	 public static Polynomial initPolynomialCoeff(Polynomial p) {
 		for(int i = 0; i < 20; i++) {
 			p.treeMap.put(i, 0);
 		}
 		return p;
 	}
-	 Polynomial multiplyConstant(Polynomial p, int constant) {
+	    public static Polynomial multiplyConstant(Polynomial p, int constant) {
 		for(Map.Entry<Integer, Integer> entry: p.treeMap.entrySet()) {
 			entry.setValue(entry.getValue()*constant);
 		}
 		return p;
 	 }
 
-	 Polynomial multiplyVariable(Polynomial p) {
+	 public static Polynomial multiplyVariable(Polynomial p) {
 		Polynomial ans = new Polynomial();
 		for(Map.Entry<Integer, Integer> entry: p.treeMap.entrySet()) {
 			ans.treeMap.put(entry.getKey() + 1, entry.getValue());
@@ -96,7 +96,7 @@ public class Polynomial {
 
 	}
 
-	public  Polynomial multiply(Polynomial p1, Polynomial p2) {
+	public static Polynomial multiply(Polynomial p1, Polynomial p2) {
 		Polynomial ans = new Polynomial();
 		ans = initPolynomialCoeff(ans);
 
