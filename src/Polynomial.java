@@ -3,17 +3,18 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Polynomial {
-	private TreeMap<Integer,Integer> treeMap;
-
+	private TreeMap<Integer,Float> treeMap;
+	private int degree = 0; 
+	
 	Polynomial(){
 		treeMap = new TreeMap<>();
 	}
 
-    public TreeMap<Integer, Integer> getTreeMap() {
+    public TreeMap<Integer, Float> getTreeMap() {
         return treeMap;
     }
 
-    public void setTreeMap(TreeMap<Integer, Integer> treeMap) {
+    public void setTreeMap(TreeMap<Integer, Float> treeMap) {
         this.treeMap = treeMap;
     }
 
@@ -23,33 +24,59 @@ public class Polynomial {
         String[] elements = processedPolynomial.split("\\+");
         for(String element : elements){
             int power;
-            int coefficient;
+            float coefficient;
             String[] parts = element.split("\\^");
-            String numbersOnly = parts[0].replaceAll("[^0-9]","");
+            String numbersOnly = parts[0].replaceAll("[a-z]","");
             power = Integer.valueOf(parts[1]);
             coefficient = Integer.valueOf(numbersOnly);
             treeMap.put(power,coefficient);
         }
+        degree = treeMap.firstKey();
     }
 	
 	public void add(Polynomial poly){
 		for (Integer key: poly.treeMap.keySet()){
-			int currentPolynomialCoefficient = 0;
+			float currentPolynomialCoefficient = 0;
 			if(this.treeMap.containsKey(key))
 				currentPolynomialCoefficient = this.treeMap.get(key);
 			this.treeMap.put(key, currentPolynomialCoefficient+poly.treeMap.get(key));
 		}
 	}
 	
-	public void subtractFrom(Polynomial poly){
+	public void subtract(Polynomial poly){
 		for (Integer key: poly.treeMap.keySet()){
-			int currentPolynomialCoefficient = 0;
+			float currentPolynomialCoefficient = 0;
 			if(this.treeMap.containsKey(key))
 				currentPolynomialCoefficient = this.treeMap.get(key);
-			this.treeMap.put(key, poly.treeMap.get(key)-currentPolynomialCoefficient);
+			this.treeMap.put(key,currentPolynomialCoefficient- poly.treeMap.get(key));
 		}
 	}
 	
+	public void divide(Polynomial p1){
+		Polynomial answer = new Polynomial();
+		while(this.degree>=p1.degree){
+
+			float tmp = this.treeMap.get(this.degree)/p1.treeMap.get(p1.degree);
+			Polynomial tmp_poly = new Polynomial();
+			tmp_poly.treeMap.put(this.degree-p1.degree, tmp);
+			this.subtract(multiply(tmp_poly,p1));
+			answer.add(tmp_poly);
+			updateDegree();
+		}
+		System.out.println(answer);
+		System.out.println(this);
+	}
+	
+	private void updateDegree() {
+		this.degree = 0;
+		for(Integer key: treeMap.keySet()){
+			if(this.treeMap.get(key)!=0)
+				if(this.degree<key)
+					this.degree = key;
+		}
+		
+	}
+
 	public String toString(){
 		String polynomialString = "";
 		for (Integer key: this.treeMap.keySet()){
@@ -66,6 +93,8 @@ public class Polynomial {
 			if(this.treeMap.get(key)<0)
 				polynomialString+=(this.treeMap.get(key)+variableString);
 		}
+		if(polynomialString=="")
+			return "0";
 		if(polynomialString.charAt(0)=='+'){
 			return polynomialString.substring(1,polynomialString.length());
 		}
@@ -76,20 +105,21 @@ public class Polynomial {
 
 	 public static Polynomial initPolynomialCoeff(Polynomial p) {
 		for(int i = 0; i < 20; i++) {
-			p.treeMap.put(i, 0);
+			p.treeMap.put(i, (float)0);
 		}
 		return p;
 	}
-	    public static Polynomial multiplyConstant(Polynomial p, int constant) {
-		for(Map.Entry<Integer, Integer> entry: p.treeMap.entrySet()) {
+	 
+    public static Polynomial multiplyConstant(Polynomial p, float constant) {
+		for(Map.Entry<Integer, Float> entry: p.treeMap.entrySet()) {
 			entry.setValue(entry.getValue()*constant);
 		}
 		return p;
-	 }
+    }
 
 	 public static Polynomial multiplyVariable(Polynomial p) {
 		Polynomial ans = new Polynomial();
-		for(Map.Entry<Integer, Integer> entry: p.treeMap.entrySet()) {
+		for(Map.Entry<Integer, Float> entry: p.treeMap.entrySet()) {
 			ans.treeMap.put(entry.getKey() + 1, entry.getValue());
 		}
 		return ans;
@@ -100,7 +130,7 @@ public class Polynomial {
 		Polynomial ans = new Polynomial();
 		ans = initPolynomialCoeff(ans);
 
-		for(Map.Entry<Integer, Integer> entry: p1.treeMap.entrySet()) {
+		for(Map.Entry<Integer, Float> entry: p1.treeMap.entrySet()) {
 
 			Polynomial tmp = p2;
 
