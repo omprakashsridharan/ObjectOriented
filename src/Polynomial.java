@@ -31,6 +31,7 @@ public class Polynomial {
             treeMap.put(power,coefficient);
         }
     }
+
 	
 	public void add(Polynomial poly){
 		for (Integer key: poly.treeMap.keySet()){
@@ -79,10 +80,10 @@ public class Polynomial {
 		return p;
 	}
 
-	 public static Polynomial multiplyVariable(Polynomial p) {
+	 public static Polynomial multiplyVariable(Polynomial p, int power) {
 		Polynomial ans = new Polynomial();
 		for(Map.Entry<Integer, Integer> entry: p.treeMap.entrySet()) {
-			ans.treeMap.put(entry.getKey() + 1, entry.getValue());
+			ans.treeMap.put(entry.getKey() + power, entry.getValue());
 		}
 		return ans;
 
@@ -97,7 +98,7 @@ public class Polynomial {
 			Polynomial tmp = p2;
 
 			if(entry.getKey() > 0)
-				tmp = multiplyVariable(tmp);
+				tmp = multiplyVariable(tmp, entry.getKey());
 			tmp = multiplyConstant(tmp, entry.getValue());
 
 			ans.add(tmp);
