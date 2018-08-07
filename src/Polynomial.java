@@ -60,8 +60,10 @@ public class Polynomial {
 			if(this.treeMap.get(key)<0)
 				polynomialString+=(this.treeMap.get(key)+"x^"+key);
 		}
-		if(polynomialString.charAt(0)=='+'){
+		if(polynomialString != "" && polynomialString.charAt(0)=='+'){
 			return polynomialString.substring(1,polynomialString.length());
+		}else if( this.treeMap.size() == 1 && this.treeMap.get(1) == 0 ){
+			return "0";
 		}
 		return polynomialString;
 		
@@ -90,10 +92,6 @@ public class Polynomial {
 
 	}
 
-	public static Polynomial divide(Polynomial p){
-		Polynomial ans = new Polynomial();
-		return null;
-	}
 
 	public static Polynomial multiply(Polynomial p1, Polynomial p2) {
 		Polynomial ans = new Polynomial();
