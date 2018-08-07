@@ -4,6 +4,7 @@ import java.util.TreeMap;
 
 public class Polynomial {
 	private TreeMap<Integer,Integer> treeMap;
+	int degree;
 
 	Polynomial(){
 		treeMap = new TreeMap<>();
@@ -22,10 +23,11 @@ public class Polynomial {
         String processedPolynomial = polynomial.replace("-","+-");
         String[] elements = processedPolynomial.split("\\+");
         for(String element : elements){
+        	if(element.equals("")) continue;
             int power;
             int coefficient;
             String[] parts = element.split("\\^");
-            String numbersOnly = parts[0].replaceAll("[^0-9]","");
+            String numbersOnly = parts[0].replaceAll("[a-z]","");
             power = Integer.valueOf(parts[1]);
             coefficient = Integer.valueOf(numbersOnly);
             treeMap.put(power,coefficient);
@@ -86,6 +88,11 @@ public class Polynomial {
 		}
 		return ans;
 
+	}
+
+	public static Polynomial divide(Polynomial p){
+		Polynomial ans = new Polynomial();
+		return null;
 	}
 
 	public static Polynomial multiply(Polynomial p1, Polynomial p2) {
