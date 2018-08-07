@@ -48,10 +48,18 @@ public class Polynomial {
 	public String toString(){
 		String polynomialString = "";
 		for (Integer key: this.treeMap.keySet()){
+			String variableString ="";
+			if(key>1){
+				variableString = "x^"+key;
+			}
+			else if(key==1){
+				variableString = "x";
+			}
+			
 			if(this.treeMap.get(key)>0)
-				polynomialString+=("+" + this.treeMap.get(key)+"x^"+key);
+				polynomialString+=("+" + this.treeMap.get(key)+variableString);
 			if(this.treeMap.get(key)<0)
-				polynomialString+=(this.treeMap.get(key)+"x^"+key);
+				polynomialString+=(this.treeMap.get(key)+variableString);
 		}
 		if(polynomialString.charAt(0)=='+'){
 			return polynomialString.substring(1,polynomialString.length());
@@ -60,6 +68,6 @@ public class Polynomial {
 		
 	}
 	public static void main(String args[]){
-
+		
 	}
 }
