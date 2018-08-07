@@ -60,13 +60,6 @@ public class Polynomial {
 		
 	}
 	public static void main(String args[]){
-		Polynomial p1 = new Polynomial();
-		p1.treeMap.put(2, 4);
-		p1.treeMap.put(1, 3);
-		Polynomial p2 = new Polynomial();
-		p2.treeMap.put(2, 3);
-		p2.treeMap.put(1, 3);
-		p1.add(p2);
-		System.out.println(p1);
+
 	}
 }
